@@ -17,8 +17,8 @@ function NodeMixin<T extends Constructor>(Base: T) {
     class Node extends Parent {
         static defaultElementName = 'i-node'
 
-        @prop({...mapPropTo(props.boolean, (self: ImperativeBase) => self.three), default: true})
-        visible!: boolean
+        @prop(mapPropTo(props.boolean, (self: ImperativeBase) => self.three))
+        visible = true
 
         isNode = true
 

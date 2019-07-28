@@ -8,10 +8,10 @@ export default class BaseMaterialBehavior extends BaseMeshBehavior {
     type: MeshComponentType = 'material'
 
     @prop(props.THREE.Color)
-    color!: Color | string | number
+    color!: Color | string | number // no value specified, defaults to a random color
 
-    @prop({...props.number, default: 1})
-    opacity!: number
+    @prop(Number)
+    opacity = 1
 
     updated(modifiedProps: any) {
         const {color, opacity} = modifiedProps

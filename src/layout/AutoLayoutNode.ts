@@ -24,6 +24,7 @@ import Node from '../core/Node'
 import Motor from '../core/Motor'
 import {XYZPartialValuesArray} from '../core/XYZValues'
 import {prop} from '../html/WithUpdate'
+import {auto} from '../html/variable'
 
 export {AutoLayout}
 
@@ -69,6 +70,10 @@ export default class AutoLayoutNode extends Node {
         // PORTED {
         this._layout = this._layout.bind(this)
         this.on('sizechange', this._layout)
+        auto(() => {
+            this.sizeVar
+            // this._layout()
+        })
         this.on('reflow', this._layout)
         // }
 

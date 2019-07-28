@@ -6,11 +6,11 @@ import {prop} from '../html/WithUpdate'
 
 // base class for light elements.
 export default class LightBase extends Node {
-    @prop(mapPropTo({...props.THREE.Color, default: new Color('white')}, (self: any) => self.three))
-    color!: Color | string | number
+    @prop(mapPropTo(props.THREE.Color, (self: any) => self.three))
+    color: Color | string | number = new Color('white')
 
-    @prop(mapPropTo({...props.number, default: 1}, (self: any) => self.three))
-    intensity!: number
+    @prop(mapPropTo(props.number, (self: any) => self.three))
+    intensity = 1
 
     three!: Light
 

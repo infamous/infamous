@@ -6,6 +6,7 @@ import XYZNonNegativeValues from './XYZNonNegativeValues'
 import Motor, {RenderTask} from './Motor'
 import {props} from './props'
 import {prop} from '../html/WithUpdate'
+import {variable} from '../html/variable'
 type XYZValuesObject<T> = import('./XYZValues').XYZValuesObject<T>
 type XYZValuesArray<T> = import('./XYZValues').XYZValuesArray<T>
 
@@ -117,6 +118,8 @@ function SizeableMixin<T extends Constructor>(Base: T) {
             return this._props.size
         }
 
+        @variable sizeVar: XYZValuesObject<number> = {x: 0, y: 0, z: 0}
+
         /**
          * Get the actual size of the Node. This can be useful when size is
          * proportional, as the actual size of the Node depends on the size of
@@ -207,6 +210,7 @@ function SizeableMixin<T extends Constructor>(Base: T) {
                 previousSize.z !== calculatedSize.z
             ) {
                 this.trigger('sizechange', {...calculatedSize})
+                this.sizeVar = {...calculatedSize}
             }
         }
 

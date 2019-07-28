@@ -37,11 +37,11 @@ export default class Mesh extends Node {
         },
     }
 
-    @prop({...mapPropTo(props.boolean, (self: any) => self.three), default: true})
-    castShadow!: boolean
+    @prop(mapPropTo(props.boolean, (self: any) => self.three))
+    castShadow = true
 
-    @prop({...mapPropTo(props.boolean, (self: any) => self.three), default: true})
-    receiveShadow!: boolean
+    @prop(mapPropTo(props.boolean, (self: any) => self.three))
+    receiveShadow = true
 
     three!: ThreeMesh
 

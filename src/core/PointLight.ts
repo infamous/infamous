@@ -7,32 +7,32 @@ import {prop} from '../html/WithUpdate'
 export default class PointLight extends LightBase {
     static defaultElementName = 'i-point-light'
 
-    @prop(mapPropTo({...props.number, default: 0}, (self: any) => self.three))
-    distance!: number
+    @prop(mapPropTo(props.number, (self: any) => self.three))
+    distance = 0
 
-    @prop(mapPropTo({...props.number, default: 1}, (self: any) => self.three))
-    decay!: number
+    @prop(mapPropTo(props.number, (self: any) => self.three))
+    decay = 1
 
-    @prop(mapPropTo({...props.boolean, default: true}, (self: any) => self.three))
-    castShadow!: boolean
+    @prop(mapPropTo(props.boolean, (self: any) => self.three))
+    castShadow = true
 
-    @prop({...props.number, default: 512})
-    shadowMapWidth!: number
+    @prop(Number)
+    shadowMapWidth = 512
 
-    @prop({...props.number, default: 512})
-    shadowMapHeight!: number
+    @prop(Number)
+    shadowMapHeight = 512
 
-    @prop({...props.number, default: 3})
-    shadowRadius!: number
+    @prop(Number)
+    shadowRadius = 3
 
-    @prop({...props.number, default: 0})
-    shadowBias!: number
+    @prop(Number)
+    shadowBias = 0
 
-    @prop({...props.number, default: 1})
-    shadowCameraNear!: number
+    @prop(Number)
+    shadowCameraNear = 1
 
-    @prop({...props.number, default: 2000})
-    shadowCameraFar!: number
+    @prop(Number)
+    shadowCameraFar = 2000
 
     three!: ThreePointLight
 
