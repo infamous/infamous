@@ -10,8 +10,7 @@ import {Mesh} from '../../core'
 function MaterialTextureMixin<T extends Constructor<Behavior>>(Base: T) {
     // TODO, use a Pick<> of HTMLElement instead, pick just parts WithUpdate needs.
     class MaterialTexture extends WithUpdate.mixin(Constructor<Behavior>(Base)) {
-        @prop(String)
-        texture!: string
+        @prop(String) texture!: string
 
         element!: Mesh
 

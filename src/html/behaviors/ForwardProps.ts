@@ -2,6 +2,11 @@ import {observe, unobserve} from 'james-bond'
 import {Mixin, MixinResult, Constructor} from 'lowclass'
 import {PossibleCustomElement} from '../WithUpdate'
 
+/**
+ * A mixin class that causes props from a specified objecet to be forwarded to this object.
+ * The consuming class (subclass) of this mixin class should define a protected
+ * _observedObject method which returns the object to be observed.
+ */
 function ForwardPropsMixin<T extends Constructor<HTMLElement>>(Base: T) {
     class ForwardProps extends Constructor<PossibleCustomElement>(Base) {
         constructor(...args: any[]) {

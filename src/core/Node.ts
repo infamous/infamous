@@ -2,7 +2,7 @@ import {Mixin, MixinResult, Constructor} from 'lowclass'
 import 'geometry-interfaces'
 import ImperativeBase, {initImperativeBase} from './ImperativeBase'
 import {default as HTMLInterface} from '../html/HTMLNode'
-import {props, mapPropTo} from './props'
+import {props} from './props'
 
 // register behaviors that can be used on this element
 import '../html/behaviors/ObjModelBehavior'
@@ -17,8 +17,7 @@ function NodeMixin<T extends Constructor>(Base: T) {
     class Node extends Parent {
         static defaultElementName = 'i-node'
 
-        @prop({...mapPropTo(props.boolean, (self: ImperativeBase) => self.three), default: true})
-        visible!: boolean
+        @prop(props.boolean) visible = true
 
         isNode = true
 
@@ -60,6 +59,7 @@ function NodeMixin<T extends Constructor>(Base: T) {
             super.updated(modifiedProps)
 
             if (modifiedProps.visible) {
+                this._forwardProp('visible', this.three)
                 console.log(
                     '                           visibility change',
                     this.constructor.name,

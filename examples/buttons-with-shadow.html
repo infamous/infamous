@@ -94,7 +94,7 @@
                     <i-point-light
                         id="light"
                         color="white"
-                        position="300 300 300"
+                        position="300 300 360"
                         size="0 0 0"
                         cast-shadow="true"
                         intensity="0.8"
@@ -141,7 +141,17 @@
                         // exposed through the HTML API yet. work-in-progress...
                         // TODO this stuff should be doable via the HTML
                         Array.from( document.querySelectorAll('i-dom-plane') ).forEach(function(n) {
-                            n.three.material.opacity = 0.3
+                            // TODO Remove Promise.resolve: Promise.resolve
+                            // currently needed here because the opacity=1 prop
+                            // in BaseMaterialBehavior otherwise sets the value
+                            // after we set it here if we don't use a timeout.
+                            // We should make a separate material-opacity prop,
+                            // and opacity should be multiplicative relative to
+                            // the parent node.
+                            Promise.resolve().then(() => {
+                                n.three.material.opacity = 0.3
+                                n.needsUpdate()
+                            })
                         })
 
                         document.querySelector('#bg').three.material.opacity = 0.3

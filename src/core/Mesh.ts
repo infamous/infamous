@@ -1,6 +1,6 @@
 import {Mesh as ThreeMesh, Material} from 'three'
 import Node from './Node'
-import {props, mapPropTo} from './props'
+import {props} from './props'
 
 // register behaviors that can be used on this element
 // TODO: maybe useDefaultNames() should register these, otherwise the user can
@@ -37,11 +37,8 @@ export default class Mesh extends Node {
         },
     }
 
-    @prop({...mapPropTo(props.boolean, (self: any) => self.three), default: true})
-    castShadow!: boolean
-
-    @prop({...mapPropTo(props.boolean, (self: any) => self.three), default: true})
-    receiveShadow!: boolean
+    @prop(props.boolean) castShadow = true
+    @prop(props.boolean) receiveShadow = true
 
     three!: ThreeMesh
 
@@ -57,14 +54,16 @@ export default class Mesh extends Node {
         if (!this.isConnected) return
 
         if (modifiedProps.castShadow) {
-            this.needsUpdate()
+            this._forwardProp('castShadow', this.three)
         }
 
         if (modifiedProps.receiveShadow) {
+            this._forwardProp('receiveShadow', this.three)
             // TODO handle material arrays
             ;(this.three.material as Material).needsUpdate = true
-            this.needsUpdate()
         }
+
+        this.needsUpdate()
     }
 
     protected _makeThreeObject3d() {

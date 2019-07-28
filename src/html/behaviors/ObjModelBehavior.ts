@@ -19,14 +19,12 @@ export default class ObjModelBehavior extends Behavior {
     /**
      * path to a `.obj` file
      */
-    @prop(String)
-    obj!: string
+    @prop(String) obj!: string
 
     /**
      * path to a `.mtl` file
      */
-    @prop(String)
-    mtl!: string
+    @prop(String) mtl!: string
 
     // TODO no any
     model: any

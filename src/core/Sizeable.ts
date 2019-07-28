@@ -33,22 +33,16 @@ function SizeableMixin<T extends Constructor>(Base: T) {
     // calculating proportional sizes. Also Transformable knows about it's parent
     // in order to calculate it's world matrix based on it's parent's.
     class Sizeable extends Parent {
-        // TODO remove any
+        // TODO TS remove any
         // protected _properties: (typeof Parent)['_props']
-        protected _properties: any
+        protected _properties: any = this._props // alias to WithUpdate._props
 
         // TODO handle ctor arg types
         constructor(...args: any[]) {
             super(...args)
-            const options = args[0] || {}
 
             this.__calculatedSize = {x: 0, y: 0, z: 0}
-            this._properties = this._props // alias to WithUpdate._props
             this._setPropertyObservers()
-
-            // is there a better way, without having to expose public "properties" or "props" properties like we did before?
-            // this.properties = options
-            Object.assign(this, options)
         }
 
         // TODO types for props

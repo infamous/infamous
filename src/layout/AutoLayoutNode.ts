@@ -49,8 +49,7 @@ export default class AutoLayoutNode extends Node {
         strict: false,
     }
 
-    @prop(String)
-    visualFormat!: string
+    @prop(String) visualFormat!: string
 
     /**
      * Constructor

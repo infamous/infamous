@@ -34,23 +34,12 @@ function SceneMixin<T extends Constructor>(Base: T) {
     class Scene extends Parent {
         static defaultElementName = 'i-scene'
 
-        @prop(props.THREE.Color)
-        backgroundColor!: Color | string | number
-
-        @prop(Number)
-        backgroundOpacity!: number
-
-        @prop(String)
-        shadowmapType!: ShadowMapTypeString
-
-        @prop(Boolean)
-        vr!: boolean
-
-        @prop(Boolean)
-        experimentalWebgl!: boolean
-
-        @prop(Boolean)
-        disableCss!: boolean
+        @prop(props.THREE.Color) backgroundColor!: Color | string | number
+        @prop(Number) backgroundOpacity!: number
+        @prop(String) shadowmapType!: ShadowMapTypeString
+        @prop(Boolean) vr!: boolean
+        @prop(Boolean) experimentalWebgl!: boolean
+        @prop(Boolean) disableCss!: boolean
 
         three!: ThreeScene
         threeCSS!: ThreeScene

@@ -17,6 +17,9 @@ export default class BaseGeometryBehavior extends BaseMeshBehavior {
     updated(modifiedProps: any) {
         const {size, sizeMode} = modifiedProps
 
+        // if (size) this._forwardProp('size', this.element)
+        // if (sizeMode) this._forwardProp('sizeMode', this.element)
+
         if (size || sizeMode) {
             this.__updateGeometryOnSizeChange(this.size as XYZNonNegativeValues)
         }

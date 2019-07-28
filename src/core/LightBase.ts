@@ -1,16 +1,12 @@
 import {Color, Light} from 'three'
 import Node from './Node'
 import {props} from './props'
-import {mapPropTo} from './props'
 import {prop} from '../html/WithUpdate'
 
 // base class for light elements.
 export default class LightBase extends Node {
-    @prop(mapPropTo({...props.THREE.Color, default: new Color('white')}, (self: any) => self.three))
-    color!: Color | string | number
-
-    @prop(mapPropTo({...props.number, default: 1}, (self: any) => self.three))
-    intensity!: number
+    @prop(props.THREE.Color) color: Color | string | number = new Color('white')
+    @prop(Number) intensity: number = 1
 
     three!: Light
 
@@ -25,6 +21,9 @@ export default class LightBase extends Node {
         super.updated(modifiedProps)
 
         if (!this.isConnected) return
+
+        if (modifiedProps.intensity) this._forwardProp('intensity', this.three)
+        if (modifiedProps.color) this._forwardProp('color', this.three)
 
         this.needsUpdate()
     }

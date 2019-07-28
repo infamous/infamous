@@ -82,25 +82,25 @@ export const props = {
 
 // map a SkateJS prop value to another target specified by getTarget
 // NOTE `this` refers to the instance on which the prop exists
-export const mapPropTo = (prop: PropDefinitionObject, getTarget: (ctx: any) => object) => ({
-    ...prop,
-    coerce: prop.coerce
-        ? function coerce(this: any, val: any, key: string): any {
-              const target: any = getTarget.call(this, this)
-              const coerced = prop.coerce!.call(this, val, key)
-              if (target) target[key] = coerced
-              return coerced
-          }
-        : undefined,
-    deserialize: prop.deserialize
-        ? function deserialize(this: any, val: string, key: string): any {
-              const target: any = getTarget.call(this, this)
-              const deserialized = prop.deserialize!.call(this, val, key)
-              if (target) target[key] = deserialized
-              return deserialized
-          }
-        : undefined,
-})
+// export const mapPropTo = (prop: PropDefinitionObject, getTarget: (ctx: any) => object) => ({
+//     ...prop,
+//     coerce: prop.coerce
+//         ? function coerce(this: any, val: any, key: string): any {
+//               const target: any = getTarget.call(this, this)
+//               const coerced = prop.coerce!.call(this, val, key)
+//               if (target) target[key] = coerced
+//               return coerced
+//           }
+//         : undefined,
+//     deserialize: prop.deserialize
+//         ? function deserialize(this: any, val: string, key: string): any {
+//               const target: any = getTarget.call(this, this)
+//               const deserialized = prop.deserialize!.call(this, val, key)
+//               if (target) target[key] = deserialized
+//               return deserialized
+//           }
+//         : undefined,
+// })
 
 export const changePropContext = (prop: PropDefinitionObject, getContext: (ctx: any) => any) => ({
     ...prop,

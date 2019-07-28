@@ -17,11 +17,34 @@ export interface PossibleCustomElementConstructor extends Constructor<HTMLElemen
 
 export type Props = Record<string, PropDefinition> | Array<string>
 
-export function WithUpdateMixin<T extends Constructor<HTMLElement>>(Base: T) {
+interface WithUpdateOptions {
+    withOptions: boolean
+}
+
+export function WithUpdateMixin<T extends Constructor<HTMLElement>>(
+    Base: T,
+    {withOptions}: WithUpdateOptions = {withOptions: true}
+) {
     const Parent = Constructor<PossibleCustomElement, PossibleCustomElementConstructor>(Base)
 
     class WithUpdate extends Parent {
         static props: Props = {}
+
+        // // TODO TS no any
+        // /**
+        //  * @readonly
+        //  */
+        // protected get _options(): any {
+        //     return this.__options
+        // }
+
+        // // TODO TS no any
+        // private __options: any = {}
+
+        // prettier-ignore
+        // @ts-ignore: unused private var is actually used below the class
+        // private __isConstructing
+        //     :boolean = true
 
         // prettier-ignore
         // @ts-ignore: unused private var is actually used by the prop() implementation
@@ -69,22 +92,33 @@ export function WithUpdateMixin<T extends Constructor<HTMLElement>>(Base: T) {
         constructor(...args: any[]) {
             super(...args)
 
+            const options = args[0] || {}
+
+            // if (withOptions) this.__options = options
+
             // this._props extends from __existingPrototypeValues in case we
             // overwrote a prototype property that had an existing value during
             // definition of the props. This ensures we get the original
             // prototype value when we read from a prop that we haven't set yet.
             this._props = {
-                ...((this.constructor as any).__existingPrototypeValues || {}),
                 ...this.makeDefaultProps(),
+                ...((this.constructor as any).__existingPrototypeValues || {}),
             }
 
-            // TODO (trusktr), I was thinking to make the protected _props
-            // readonly. Should it be private only (requires refactoring
-            // Sizeable and Transformable)? Or is convenient for subclasses to
-            // read from the cache? I'm leaning towards protected readonly.
-            // Protected(this)._props = new PropsReadonly(this)
-
             this.__modifiedProps = {}
+
+            // TODO should we triggerUpdate here? I think we should, so that
+            // reactivity starts as soon as the instance is created (it may not
+            // be a CustomElement and thus doesn't have connectedCallback)...
+            this.triggerUpdateForAllProps()
+
+            if (withOptions)
+                delay(() => {
+                    if (this.tagName === 'I-SPHERE') debugger
+                    Object.assign(this, options)
+                })
+
+            // this.__isConstructing = false
         }
 
         attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null) {
@@ -179,7 +213,18 @@ export function WithUpdateMixin<T extends Constructor<HTMLElement>>(Base: T) {
         makeDefaultProps() {
             return {}
         }
+
+        // forwardProp<TObj, K extends (keyof this) & (keyof TObj)>(name: K, object: TObj) {
+        protected _forwardProp(name: keyof this, object: any) {
+            object[name] = this[name]
+        }
     }
+
+    // prettier-ignore
+    // set to false in the WithUpdate constructor
+    // @ts-ignore: private access
+    // WithUpdate.prototype.__isConstructing
+    //     = true
 
     return WithUpdate as MixinResult<typeof WithUpdate, T>
 }
@@ -562,6 +607,8 @@ function makeReactiveProp(definition: PropDefinition, prototype: any, name: stri
     }
 
     function newSetter(this: any, val: any) {
+        // this._options[name] === undefined ? 1 : this._options[name]
+
         const {attribute, serialize, coerce} = normalized
 
         if (attribute && attribute.reflect) {
