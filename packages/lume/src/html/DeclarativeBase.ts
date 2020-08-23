@@ -1,9 +1,10 @@
 /* global HTMLSlotElement */
 
-import WebComponent from './WebComponent'
+import {Element} from '@lume/element'
 import HTMLNode from './HTMLNode'
 import {observeChildren, hasShadowDomV1} from '../core/Utility'
-import {Constructor} from 'lowclass'
+import WithChildren from './WithChildren'
+import DefaultBehaviors from './behaviors/DefaultBehaviors'
 
 export type ConnectionType = 'root' | 'slot' | 'actual'
 
@@ -26,7 +27,8 @@ function makeDeclarativeBase() {
 	/**
 	 * @implements {EventListener}
 	 */
-	return class DeclarativeBase extends Constructor<WebComponent & HTMLElement>(WebComponent) {
+	// return class DeclarativeBase extends Constructor<WebComponent & HTMLElement>(WebComponent) {
+	return class DeclarativeBase extends WithChildren.mixin(DefaultBehaviors.mixin(Element)) {
 		static defaultElementName: string = 'ERROR: Subclass needs to set defaultElementName'
 		private static _definedElementName?: string
 
@@ -38,6 +40,10 @@ function makeDeclarativeBase() {
 
 		static get definedElementName() {
 			return this._definedElementName || null
+		}
+
+		constructor(..._args: any[]) {
+			super()
 		}
 
 		// We use this to Override HTMLElement.prototype.attachShadow in v1 so
@@ -164,7 +170,8 @@ function makeDeclarativeBase() {
 			}
 		}
 
-		// TODO use this to render only to WebGL without HTMLElements.
+		// TODO use this to detect when we should render only to WebGL in a
+		// non-DOM environment.
 		get hasHtmlApi() {
 			if (this instanceof HTMLElement) return true
 			return false

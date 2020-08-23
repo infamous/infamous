@@ -1,7 +1,6 @@
 export * from './DeclarativeBase'
 export * from './HTMLNode'
 export * from './HTMLScene'
-export * from './WebComponent'
 // export HTMLPushPaneLayout from './HTMLPushPaneLayout'
 
 import Scene from '../core/Scene'

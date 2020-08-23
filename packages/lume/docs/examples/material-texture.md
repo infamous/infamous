@@ -27,7 +27,7 @@
     label { padding-right: 10px; }
 </style>
 
-<i-scene id="scene" experimental-webgl>
+<i-scene id="scene" experimental-webgl perspective="150">
     <i-ambient-light intensity="0.3"></i-ambient-light>
     <i-point-light
         id="light"
@@ -38,18 +38,19 @@
         intensity="0.8"
         >
     </i-point-light>
+    <!-- Specify a color otherwise the material will be tinted deeppink by default -->
     <i-box id="model"
         rotation="40 40 0"
         align="0.5 0.5 0.5"
         mount-point="0.5 0.5 0.5"
         size="100 100 100"
-        color="white" COMMENT-otherwise-the-material-will-be-tinted-random-color
+        color="white"
         texture="${location.origin+location.pathname}/textures/cement.jpg"
     >
     </i-box>
 </i-scene>
 
-<i-scene id="scene">
+<i-scene id="scene2">
     <i-node size-mode="proportional literal" size="1 80">
         <!-- FIXME When toggling these too fast, the toggling breaks. Three.js Loader problem? -->
         <label>
@@ -79,6 +80,11 @@
         <label>
             Enable texture:
             <input type="checkbox" id="enableTex" checked />
+        </label>
+        <br />
+        <label>
+            Perspective <code id="perspectiveVal"></code>:
+            <input id="perspective" type="range" min="75" max="250">
         </label>
     </i-node>
 </i-scene>
@@ -111,6 +117,17 @@
       // el.texture = el.texture ? '' : '${location.origin+location.pathname}/textures/cement.jpg'
       el.setAttribute('texture', el.getAttribute('texture') ? '' : '${location.origin+location.pathname}/textures/cement.jpg')
     })
+
+    perspectiveVal.textContent = '('+scene.perspective.toString().padStart(3, '0')+'px)'
+    perspective.value = scene.perspective
+
+    const onPerspectiveChange = event => {
+        scene.perspective = perspective.value
+        perspectiveVal.textContent = '('+perspective.value.padStart(3, ' ')+'px)'
+    }
+
+    perspective.addEventListener('change', onPerspectiveChange)
+    perspective.addEventListener('input', onPerspectiveChange)
 <\/script>
 
 `

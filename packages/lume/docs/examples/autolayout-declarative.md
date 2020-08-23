@@ -19,6 +19,8 @@
     }
 </style>
 
+<!-- In general it is always better to ensure custom elements are defined before using them. -->
+<!-- FIXME: If we move this script to after the scene's markup, then the last item in the layout never becomes visible for some reason. -->
 <script> LUME.useDefaultNames() <\/script>
 
 <i-scene id="scene" experimental-webgl>

@@ -56,7 +56,7 @@
         id="scene"
         background-color="black"
         background-opacity="0"
-        style="perspective: 800px"
+        perspective="800"
         shadowmap-type="pcfsoft" NOTE="one of basic, pcf, pcfsoft"
     >
         <i-ambient-light color="#ffffff" intensity="0"></i-ambient-light>

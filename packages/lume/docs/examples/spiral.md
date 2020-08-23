@@ -16,6 +16,7 @@
     <i-scene>
       <i-node
         ref="rotator"
+        TODO-calculate-minimum-size-based-on-viewport-size
         size="1630 1630"
         align="0.5 0.5"
         mount-point="0.5 0.5"
@@ -64,7 +65,7 @@
       template: template.innerHTML,
       mounted() {
         const rotator = this.$refs.rotator
-        rotator.rotation = (x, y, z) => [x, y, z - 9.8]
+        rotator.rotation = (x, y, z) => [x, y, z + 9.8]
       },
     })
   <\/script>

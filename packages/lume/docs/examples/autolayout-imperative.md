@@ -31,19 +31,19 @@
         Sphere
     } = LUME
 
-    const scene = new Scene({
+    const scene = new Scene().set({
         experimentalWebgl: true,
     })
 
     scene.mount(document.body)
 
-    const ambientLight = new AmbientLight({
+    const ambientLight = new AmbientLight().set({
         intensity: 0.1,
     })
 
     scene.add(ambientLight)
 
-    const pointLight = new PointLight({
+    const pointLight = new PointLight().set({
         color: "white",
         position: "300 300 120",
         size: "0 0 0",
@@ -53,16 +53,16 @@
 
     scene.add(pointLight)
 
-    const sphere = new Sphere({
+    const sphere = new Sphere().set({
         size: [10, 10, 10],
         color: "white",
         receiveShadow: false,
         castShadow: false,
         mountPoint: [0.5, 0.5, 0.5],
+        style: "pointer-events: none",
     })
 
     sphere.setAttribute('has', 'basic-material')
-    sphere.style = "pointer-events: none"
     pointLight.add(sphere)
 
     const vfl1 = \`
@@ -78,15 +78,14 @@
         |-[child3(child4,child5)]-[child4]-[child5]-|
     \`
 
-    const layout = new AutoLayoutNode({
+    const layout = new AutoLayoutNode().set({
         size: [600, 400],
         position: "0 0 0",
         align: " 0.5 0.5 0",
         mountPoint: " 0.5 0.5 0",
         visualFormat: vfl2,
+        style: "background: rgba(0,0,0,0.3)",
     })
-
-    layout.style = "background: rgba(0,0,0,0.3)"
 
     const text = \`
         This is a paragraph of text to show that it reflows when the
@@ -94,35 +93,35 @@
         observed in its fullness.
     \`
 
-    const child1 = new DOMPlane({
+    const child1 = new DOMPlane().set({
         color: 'deeppink'
     })
 
     child1.textContent = text
     layout.add(child1, 'child1')
 
-    const child2 = new DOMPlane({
+    const child2 = new DOMPlane().set({
         color: 'deeppink'
     })
 
     child2.textContent = text
     layout.add(child2, 'child2')
 
-    const child3 = new DOMPlane({
+    const child3 = new DOMPlane().set({
         color: 'deeppink'
     })
 
     child3.textContent = text
     layout.add(child3, 'child3')
 
-    const child4 = new DOMPlane({
+    const child4 = new DOMPlane().set({
         color: 'deeppink'
     })
 
     child4.textContent = text
     layout.add(child4, 'child4')
 
-    const child5 = new DOMPlane({
+    const child5 = new DOMPlane().set({
         color: 'deeppink'
     })
 
@@ -158,10 +157,10 @@
     // the DOM, we have to wait for their GL objects to be loaded before
     // we can work with those underlying objects.
     scene.on('GL_LOAD', async () => {
-      // TODO fix order of events. Why is Promise.resolve() needed for it to work?
-      await Promise.resolve()
+        // TODO fix order of events. Why is Promise.resolve() needed twice for this to work?
+        await Promise.resolve()
+        await Promise.resolve()
 
-      console.log('DO IT')
         Array.from( document.querySelectorAll('i-dom-plane') ).forEach(plane => {
             // FIXME, props/attributes should work instead of this
             plane.three.material.opacity = 0.3
